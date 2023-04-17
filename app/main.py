@@ -1,13 +1,21 @@
-from typing import Union
+# app/main.py
+from __future__ import annotations
 
 from fastapi import FastAPI
+from starlette.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+from app import users
 
-@app.get("/")
-def read_root():
-    return {"Hello": "world"}
+fast_api = FastAPI()
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+# Set all CORS enabled origins.
+fast_api.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+fast_api.include_router(users.router)
