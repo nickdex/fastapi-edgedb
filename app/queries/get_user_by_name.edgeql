@@ -1,2 +1,2 @@
-select User {name, created_at}
+select User {name, dob}
 filter User.name = <str>$name
